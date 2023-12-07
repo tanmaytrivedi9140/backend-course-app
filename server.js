@@ -7,6 +7,7 @@ const {create_course, edit_course,allCourses } = require('./routes/course_route'
 const {user_signup , user_login ,purchased_courses , getAllpur} = require('./routes/user_routes');
 const port = process.env.port || 3000;
 const router = require('router');
+const auth = require('./middlewares/auth');
 connectDb();
 const app = express();
 app.use(express.json());
@@ -21,29 +22,29 @@ app.use(bodyparser.json());
 
 
 
-app.post('/admin/signup', admin_signup);
+app.post('/admin/signup',auth , admin_signup);
 
-app.post('/admin/login',admin_login);
+app.post('/admin/login',auth ,admin_login);
 
-app.post('/admin/courses', create_course);
+app.post('/admin/courses',auth , create_course);
 
-app.put('/admin/courses/:_id', edit_course);
+app.put('/admin/courses/:_id',auth , edit_course);
 
-app.get('/admin/courses', allCourses);
+app.get('/admin/courses',auth , allCourses);
 
 
 
 
 // user routes---------------------------------------
-app.post('/users/signup',user_signup);
+app.post('/users/signup',auth ,user_signup);
 
-app.post('/users/login' , user_login);
+app.post('/users/login',auth  , user_login);
 
-app.get('/users/courses' , allCourses);
+app.get('/users/courses' ,auth , allCourses);
 
-app.post('/users/courses/:_courseId' , purchased_courses);
+app.post('/users/courses/:_courseId',auth  , purchased_courses);
 
-app.get('/users/purchasedCourses' , getAllpur);
+app.get('/users/purchasedCourses',auth  , getAllpur);
 
 
 
